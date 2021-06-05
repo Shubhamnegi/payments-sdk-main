@@ -8,5 +8,5 @@ Main goal is to ease out the payment integration process by creating a wrapper o
 - [Integrations](./docs/Integrations.md)
 - [Orders](./docs/Orders.md)
 - [Logging](./docs/Logging.md)
-- [Callback Handling](./docs/Callback.md)
+- [Callback And Webhooks Handling](./docs/Callback.md)
 
