@@ -4,8 +4,11 @@
   "description": "Main goal is to ease out the payment integration process by creating a wrapper over all the integrations. Service will make use of factory pattern to create a generic payment gateway.",
   "main": "index.js",
   "scripts": {
+    "start": "node ./dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rm -rf ./dist && ./node_modules/.bin/tsc"
+    "prebuild":"rm -rf ./dist",
+    "build": "./node_modules/.bin/tsc",
+    "postbuild":"cp -r ./src/views ./dist/views"
   },
   "repository": {
     "type": "git",
