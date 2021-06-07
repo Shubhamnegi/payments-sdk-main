@@ -105,3 +105,8 @@ dist
 
 # vscode
 .vscode
+
+# env files
+.env.local
+.env.production
+.env.test

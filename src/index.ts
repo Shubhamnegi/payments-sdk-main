@@ -1,6 +1,11 @@
 import dotenv from "dotenv";
+import * as path from 'path';
+// initialize configuration
+dotenv.config({
+    path: path.join(__dirname, ".env")
+});
+
 import express from "express";
-import path from "path";
 import * as expressBunyan from 'express-bunyan-logger'
 import { getLogger } from "./Helpers/logger";
 import { subscriberRoutes } from "./Routes.ts/subscriber"
@@ -8,9 +13,9 @@ import { HttpError } from "./Helpers/HttpError";
 import Logger from "bunyan";
 import { businessUnitRoutes } from "./Routes.ts/business-unit";
 import { integrationRoute } from "./Routes.ts/integration";
+import { MysqlConnection } from './Connections/MysqlConnection'
 
-// initialize configuration
-dotenv.config();
+
 
 // Create application logger
 
@@ -67,7 +72,10 @@ const errorHandler = (
 app.use(errorHandler);
 
 // start the express server
-app.listen(port, () => {
+app.listen(port, async () => {
     // tslint:disable-next-line:no-console
+    // Inititate mysql connection
+    MysqlConnection.connect();
+    await MysqlConnection.checkHealth();
     applicationLogger.info(`server started at http://localhost:${port}`);
 });
