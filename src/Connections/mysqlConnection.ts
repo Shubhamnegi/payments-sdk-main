@@ -6,7 +6,7 @@ const logger = getLogger('DB_LOGGER');
 
 export class MysqlConnection {
     protected static logger = getLogger('DB_LOGGER');
-    protected static sequelize: Sequelize
+    protected static sequelize: Sequelize | null
 
     public static connect() {
         if (this.sequelize) {
@@ -37,11 +37,17 @@ export class MysqlConnection {
      */
     public static async checkHealth() {
         this.logger.debug("Initiating health Check");
-        await this.sequelize.authenticate(); // Authenticate DB
+        const sequelize = this.sequelize as Sequelize;
+        await sequelize.authenticate(); // Authenticate DB
     }
 
     public static getConnection() {
         return this.connect();
     }
 
+    public static disconnect() {
+        const sequelize = this.sequelize as Sequelize;
+        sequelize.close()
+        this.sequelize = null;
+    }
 }
