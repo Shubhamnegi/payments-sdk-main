@@ -26,6 +26,11 @@ export const Plan = sequelize.define('Plan', {
         allowNull: false,
         comment: "Price for plan",
         defaultValue: 0
+    },
+    status: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: 1
     }
 }, {
     createdAt: true,
@@ -34,8 +39,8 @@ export const Plan = sequelize.define('Plan', {
 });
 
 
-if (process.env.NODE_ENV && process.env.NODE_ENV === 'local') {
-    (async () => {
-        await Plan.sync({ alter: true })
-    })()
-}
+// if (process.env.NODE_ENV && process.env.NODE_ENV === 'local') {
+//     (async () => {
+//         await Plan.sync({ alter: true })
+//     })()
+// }

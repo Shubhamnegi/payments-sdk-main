@@ -9,7 +9,7 @@ import express from "express";
 import * as expressBunyan from 'express-bunyan-logger'
 import { getLogger } from "./Helpers/logger";
 import { subscriberRoutes } from "./Routes.ts/subscriber"
-import { HttpError } from "./Helpers/HttpError";
+import { HttpError } from "./Errors/HttpError";
 import Logger from "bunyan";
 import { businessUnitRoutes } from "./Routes.ts/business-unit";
 import { integrationRoute } from "./Routes.ts/integration";
