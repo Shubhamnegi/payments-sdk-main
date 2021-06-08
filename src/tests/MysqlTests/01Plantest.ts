@@ -5,6 +5,7 @@ import { expect } from 'chai'
 import { PlansRepository } from '../../Repositories/mysql/plansRepository'
 import { MysqlConnection } from '../../Connections/MysqlConnection';
 import { PlanInterface } from '../../Interfaces/PlanInterface';
+import { PlanNotFound } from '../../Errors/PlanNotFound';
 
 
 
@@ -22,10 +23,6 @@ describe('mysql Respository test suite - Plans', () => {
         await MysqlConnection.checkHealth();
     });
 
-    it('should be able to get plan', async () => {
-        const result = await PlansRepository.getAllPlans();
-        expect(Array.isArray(result)).to.be.eqls(true)
-    });
 
     it('should be able to insert plan', async () => {
         const result = await PlansRepository.insertIntoPlan(plan);
@@ -35,6 +32,20 @@ describe('mysql Respository test suite - Plans', () => {
         expect(result.planName).to.be.eql(plan.planName);
     })
 
+    it('should be able to get plan', async () => {
+        const result = await PlansRepository.getAllPlans();
+        expect(Array.isArray(result)).to.be.eqls(true)
+        expect(result.length).to.be.greaterThan(0);
+    });
+    
+    it('should fail on invalid name', async () => {
+        try {
+            await PlansRepository.getPlanByName("invalid name");
+        } catch (error) {
+            expect(error instanceof PlanNotFound).to.be.eql(true);
+        }
+    })
+
     it('should be able to get plan by name', async () => {
         const result = await PlansRepository.getPlanByName(plan.planName);
 
@@ -42,6 +53,23 @@ describe('mysql Respository test suite - Plans', () => {
         expect(result).to.haveOwnProperty('planName');
         expect(result.planName).to.be.eql(plan.planName);
     })
+
+
+
+    it('should be able to update status', async () => {
+        await PlansRepository.updatePlanStatus(plan.planName, false);
+        const result = await PlansRepository.getPlanByName(plan.planName);
+        expect(result.planName).to.be.eql(plan.planName);
+        expect(result.status).to.be.eql(false);
+
+    })
+
+    it('should fail to get active plans', async () => {
+        const result = await PlansRepository.getAllPlans(true);
+        expect(result.length).to.be.eql(0)
+    })
+
+
 
     after('Close connection', () => {
         MysqlConnection.disconnect();

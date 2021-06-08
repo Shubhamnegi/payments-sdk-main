@@ -12,7 +12,7 @@ export class PlansRepository {
         if (active) {
             where = {
                 where: {
-                    active
+                    status: active
                 }
             }
         }
@@ -38,5 +38,16 @@ export class PlansRepository {
             throw new PlanNotFound(planName)
         }
         return result.toJSON() as PlanInterface
+    }
+
+    public static async updatePlanStatus(planName: string, status: boolean) {
+        await Plan.update({
+            status
+        }, {
+            where: {
+                planName
+            }
+        });
+        return true;
     }
 }
