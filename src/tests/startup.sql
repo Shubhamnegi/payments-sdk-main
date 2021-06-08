@@ -1,7 +1,10 @@
 -- Replace database name 
-CREATE DATABASE IF NOT EXISTS payserv_sdk_test; 
+DROP DATABASE payserv_sdk_test;
+CREATE DATABASE payserv_sdk_test; 
+
 USE payserv_sdk_test;
-DROP TABLE IF EXISTS plans;
+
+-- Table Plan
 CREATE TABLE `plans` (
   `planName` varchar(255) NOT NULL,
   `orders` int NOT NULL COMMENT 'Max number of order',
