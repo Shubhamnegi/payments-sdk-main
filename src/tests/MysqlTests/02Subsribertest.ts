@@ -9,6 +9,7 @@ import { SubscriberNotFound } from '../../Errors/SubscriberNotFound';
 import { SubscriberStatus } from '../../Types/SubscriberStatus';
 import { UsernameAlreadyTaken } from '../../Errors/UsernameAlreadyTaken';
 import { PlansRepository } from '../../Repositories/mysql/plansRepository';
+import { ForeignKeyConstraintError } from 'sequelize';
 
 describe('Mysql Respository test suite - Subscriber', () => {
     const user: SubsriberInterface = {
@@ -94,11 +95,9 @@ describe('Mysql Respository test suite - Subscriber', () => {
 
     it('should fail wile updating with invalid plan', async () => {
         try {
-            await SubscriberRepository.updatePlan('username_active', 'invalid name');            
+            await SubscriberRepository.updatePlan('username_active', 'invalid name');
         } catch (error) {
-            console.log(error);
-            console.log(error.name);
-            expect(error).to.be.instanceOf(Error)
+            expect(error).to.be.instanceOf(ForeignKeyConstraintError)
         }
     })
 
