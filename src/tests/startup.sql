@@ -17,13 +17,19 @@ CREATE TABLE `plans` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+-- Table Subscribers
 CREATE TABLE IF NOT EXISTS `subscribers` (
   `id` INTEGER auto_increment , 
   `name` VARCHAR(255) NOT NULL, 
-  `username` VARCHAR(255) NOT NULL UNIQUE,
-  `password` VARCHAR(255) NOT NULL,
-  `status` ENUM('active', 'suspended') DEFAULT 'active',
-  `createdAt` DATETIME NOT NULL,
+  `username` VARCHAR(255) NOT NULL UNIQUE, 
+  `password` VARCHAR(255) NOT NULL,   
+  `status` ENUM('active', 
+  'suspended') DEFAULT 'active', 
+  `createdAt` DATETIME NOT NULL, 
   `updatedAt` DATETIME NOT NULL, 
-  PRIMARY KEY (`id`)
+  `plan` VARCHAR(255), 
+  `planStartDate` DATETIME COMMENT 'Date time when new plan started from', 
+  `planExpiryDate` DATETIME COMMENT 'Expiry time when plan stops working', 
+  PRIMARY KEY (`id`), 
+  FOREIGN KEY (`plan`) REFERENCES `plans` (`planName`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB;

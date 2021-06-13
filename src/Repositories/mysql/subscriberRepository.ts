@@ -2,7 +2,9 @@ import { SubscriberNotFound } from "../../Errors/SubscriberNotFound";
 import { UsernameAlreadyTaken } from "../../Errors/UsernameAlreadyTaken";
 import { SubsriberInterface } from "../../Interfaces/SubsriberInterface";
 import { Subscriber } from "../../Models/mysql/subscriberModel";
+import { Plan } from "../../Models/mysql/planModel";
 import { SubscriberStatus } from "../../Types/SubscriberStatus";
+import { Model } from "sequelize";
 
 export class SubscriberRepository {
     /**
@@ -76,5 +78,21 @@ export class SubscriberRepository {
         await result.save();
         result = await result.reload();
         return result.toJSON() as SubsriberInterface;
+    }
+
+    public static async updatePlan(username: string, plan: string) {
+        let sub = await Subscriber.findOne({
+            where: {
+                username,
+                status: SubscriberStatus.ACTIVE
+            }
+        });
+        if (!sub) {
+            throw new SubscriberNotFound(username);
+        }
+        sub.set('plan', plan)
+        await sub.save();
+        sub = await sub.reload();
+        return sub.toJSON() as SubsriberInterface;
     }
 }

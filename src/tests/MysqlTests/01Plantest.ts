@@ -11,7 +11,7 @@ import { PlanNotFound } from '../../Errors/PlanNotFound';
 
 describe('mysql Respository test suite - Plans', () => {
     const plan: PlanInterface = {
-        planName: "TEST_PLAN" + Math.ceil(Math.random() * 1000),
+        planName: "TEST_PLAN",
         businessUnits: 5,
         orders: 1000,
         price: 0,
@@ -37,7 +37,7 @@ describe('mysql Respository test suite - Plans', () => {
         expect(Array.isArray(result)).to.be.eqls(true)
         expect(result.length).to.be.greaterThan(0);
     });
-    
+
     it('should fail on invalid name', async () => {
         try {
             await PlansRepository.getPlanByName("invalid name");

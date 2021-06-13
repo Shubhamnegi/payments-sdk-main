@@ -8,6 +8,7 @@ import { SubsriberInterface } from '../../Interfaces/SubsriberInterface';
 import { SubscriberNotFound } from '../../Errors/SubscriberNotFound';
 import { SubscriberStatus } from '../../Types/SubscriberStatus';
 import { UsernameAlreadyTaken } from '../../Errors/UsernameAlreadyTaken';
+import { PlansRepository } from '../../Repositories/mysql/plansRepository';
 
 describe('Mysql Respository test suite - Subscriber', () => {
     const user: SubsriberInterface = {
@@ -90,6 +91,24 @@ describe('Mysql Respository test suite - Subscriber', () => {
             expect(r.status).to.be.eql(SubscriberStatus.ACTIVE);
         }
     });
+
+    it('should fail wile updating with invalid plan', async () => {
+        try {
+            await SubscriberRepository.updatePlan('username_active', 'invalid name');            
+        } catch (error) {
+            console.log(error);
+            console.log(error.name);
+            expect(error).to.be.instanceOf(Error)
+        }
+    })
+
+    it('should be able to update then plan', async () => {
+        const plan = await PlansRepository.getPlanByName('TEST_PLAN');
+        const sub = await SubscriberRepository.updatePlan('username_active', plan.planName);
+
+        commonCheck(sub);
+        expect(sub.status).to.be.eql(SubscriberStatus.ACTIVE);
+    })
 
     after('Close connection', () => {
         MysqlConnection.disconnect();

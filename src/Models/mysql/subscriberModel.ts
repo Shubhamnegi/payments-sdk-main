@@ -1,6 +1,7 @@
 import { MysqlConnection } from '../../Connections/MysqlConnection'
 import { DataTypes } from 'sequelize'
 import { hash } from '../../Helpers/hash';
+import { Plan } from './planModel';
 
 const sequelize = MysqlConnection.getConnection();
 
@@ -27,6 +28,16 @@ export const Subscriber = sequelize.define('Subscriber', {
             this.setDataValue('password', hash(newPassword));
         }
     },
+    planStartDate: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        comment: "Date time when new plan started from"
+    },
+    planExpiryDate: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        comment: "Expiry time when plan stops working"
+    },
     status: {
         type: DataTypes.ENUM,
         values: ['active', 'suspended'],
@@ -36,6 +47,14 @@ export const Subscriber = sequelize.define('Subscriber', {
     createdAt: true,
     updatedAt: true,
     tableName: "subscribers"
+});
+
+Subscriber.belongsTo(Plan, {
+    foreignKey: {
+        allowNull: true,
+        name: "plan",
+        field: "plan"
+    }
 });
 
 if (process.env.NODE_ENV && process.env.NODE_ENV === 'local') {

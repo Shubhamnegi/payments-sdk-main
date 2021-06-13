@@ -10,7 +10,7 @@ Refer
 - [Business Units](./BusinessUnit.md) 
 - [Integration](./Integrations.md)
 - [Subscriber Model](../src/Models/mysql/subscriberModel.ts)
-- [Subscriber Repository](../)
+- [Subscriber Repository](../src/Repositories/mysql/subscriberRepository.ts)
 
 
 
