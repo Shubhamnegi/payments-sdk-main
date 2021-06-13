@@ -15,3 +15,15 @@ CREATE TABLE `plans` (
   `status` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`planName`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `subscribers` (
+  `id` INTEGER auto_increment , 
+  `name` VARCHAR(255) NOT NULL, 
+  `username` VARCHAR(255) NOT NULL UNIQUE,
+  `password` VARCHAR(255) NOT NULL,
+  `status` ENUM('active', 'suspended') DEFAULT 'active',
+  `createdAt` DATETIME NOT NULL,
+  `updatedAt` DATETIME NOT NULL, 
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB;

@@ -68,10 +68,4 @@ describe('mysql Respository test suite - Plans', () => {
         const result = await PlansRepository.getAllPlans(true);
         expect(result.length).to.be.eql(0)
     })
-
-
-
-    after('Close connection', () => {
-        MysqlConnection.disconnect();
-    })
 })

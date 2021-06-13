@@ -37,10 +37,3 @@ export const Plan = sequelize.define('Plan', {
     updatedAt: true,
     tableName: "plans"
 });
-
-
-// if (process.env.NODE_ENV && process.env.NODE_ENV === 'local') {
-//     (async () => {
-//         await Plan.sync({ alter: true })
-//     })()
-// }
